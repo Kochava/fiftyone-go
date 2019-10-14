@@ -41,7 +41,7 @@ rm cache.c cache.h threading.c threading.h
 echo "Renaming packages"
 sed -i '' 's/package FiftyOneDegreesPatternV3/package fiftyonepattern/' ./fiftyonepattern/*.go
 sed -i '' 's/package FiftyOneDegreesTrieV3/package fiftyonetrie/' ./fiftyonetrie/*.go
-sed -i '' 's/\.\.\/cityhash\///' ./fiftyonepattern/*.*
+sed -i '' 's/\.\.\/cityhash\///' ./fiftyonepattern/FiftyOneDegreesPatternV3.go fiftyonepattern/51Degrees.*
 sed -i '' 's/\.\.\/threading/threading/' ./fiftyonepattern/51Degrees.* ./fiftyonepattern/FiftyOneDegreesPatternV3.go
 sed -i '' 's/\.\.\/threading/threading/' ./fiftyonetrie/51Degrees.* ./fiftyonetrie/FiftyOneDegreesTriev3.go
 # sed -i '' 's/\.\.\/cache/cache/' ./fiftyonepattern/*.*
