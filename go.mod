@@ -1,3 +1,3 @@
-module github.com/Kochava/fiftyone-go
+module github.com/Kochava/fiftyonego
 
 go 1.13
