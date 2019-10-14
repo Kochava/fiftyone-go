@@ -55,7 +55,7 @@
 #include <limits.h>
 #include <time.h>
 #ifndef FIFTYONEDEGREES_NO_THREADING
-#include "../threading.h"
+#include "threading.h"
 #endif
 
 /* Used to represent bytes */

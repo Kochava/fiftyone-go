@@ -28,9 +28,19 @@ mv "${RELEASE_DIR}/go/src"/* .
 mv pattern fiftyonepattern
 mv trie fiftyonetrie
 
+echo "Condencing c files into go directories"
+cp *.c ./fiftyonepattern/
+cp ./cityhash/* ./fiftyonepattern/
+
+rm -r cityhash
+rm cache.c cache.h threading.c threading.h
+
 echo "Renaming packages"
 sed -i '' 's/package FiftyOneDegreesPatternV3/package fiftyonepattern/' ./fiftyonepattern/*.go
 sed -i '' 's/package FiftyOneDegreesTrieV3/package fiftyonetrie/' ./fiftyonetrie/*.go
+sed -i '' 's/\.\.\/cityhash\///' ./fiftyonepattern/*.*
+sed -i '' 's/\.\.\/threading/threading/' ./fiftyonepattern/*.*
+sed -i '' 's/\.\.\/threading/threading/' ./fiftyonetrie/*.*
 
 echo "Removing release"
 rm -r $RELEASE_DIR $ZIPFILE

@@ -37,7 +37,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #ifndef FIFTYONEDEGREES_NO_THREADING
-#include "../threading.h"
+#include "threading.h"
 #endif
 
 #ifdef FIFTYONEDEGREES_INDIRECT

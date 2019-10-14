@@ -5,7 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include <ctype.h>
-#include "../cityhash/city.h"
+#include "city.h"
 #include "51Degrees.h"
 #if !defined(DEBUG) && !defined(_DEBUG) && !defined(NDEBUG)
 #define NDEBUG

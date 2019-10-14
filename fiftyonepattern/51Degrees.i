@@ -67,8 +67,8 @@
 /*
 #cgo LDFLAGS: -lpthread
 #include <time.h>
-#include "../threading.c"
-#include "../cityhash/city.c"
+#include "threading.c"
+#include "city.c"
 */
 import "C"
 %}
