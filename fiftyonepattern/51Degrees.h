@@ -54,8 +54,9 @@
 #include <stdint.h>
 #include <limits.h>
 #include <time.h>
+#include "city.h"
 #ifndef FIFTYONEDEGREES_NO_THREADING
-#include "../threading.h"
+#include "threading.h"
 #endif
 
 /* Used to represent bytes */
