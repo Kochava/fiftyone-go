@@ -16,8 +16,8 @@ package fiftyonetrie
 /*
 #cgo LDFLAGS: -lpthread
 #include <time.h>
-#include "threading.c"
-#include "../cache.c"
+
+
 */
 import "C"
 
