@@ -16,6 +16,8 @@ package fiftyonepattern
 /*
 #cgo LDFLAGS: -lpthread
 #include <time.h>
+
+
 */
 import "C"
 

@@ -44,6 +44,10 @@ sed -i '' 's/package FiftyOneDegreesTrieV3/package fiftyonetrie/' ./fiftyonetrie
 sed -i '' 's/\.\.\/cityhash\///' ./fiftyonepattern/FiftyOneDegreesPatternV3.go fiftyonepattern/51Degrees.*
 sed -i '' 's/\.\.\/threading/threading/' ./fiftyonepattern/51Degrees.* ./fiftyonepattern/FiftyOneDegreesPatternV3.go
 sed -i '' 's/\.\.\/threading/threading/' ./fiftyonetrie/51Degrees.* ./fiftyonetrie/FiftyOneDegreesTriev3.go
+
+sed -i '' 's/#include "city.c"//; s/#include "threading.c"//'  ./fiftyonepattern/FiftyOneDegreesPatternV3.go
+sed -i '' 's/#include "city.c"//; s/#include "threading.c"//; s/#include "\.\.\/cache.c"//'  ./fiftyonetrie/FiftyOneDegreesTrieV3.go
+sed -i '' '56s/^//p; 56s/^.*/#include "city.h"/' ./fiftyonepattern/51Degrees.h
 # sed -i '' 's/\.\.\/cache/cache/' ./fiftyonepattern/*.*
 # sed -i '' 's/\.\.\/cache/cache/' ./fiftyonetrie/*.*
 
