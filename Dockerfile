@@ -21,5 +21,6 @@ WORKDIR /usr/local/device-detection-go/dd/device-detection-cxx/
 RUN mkdir build
 WORKDIR /usr/local/device-detection-go/dd/device-detection-cxx/build
 RUN cmake .. -DCMAKE_BUILD_TYPE=Release
-#RUN make --build .
+RUN cmake --build .
 
+WORKDIR /usr/local/
