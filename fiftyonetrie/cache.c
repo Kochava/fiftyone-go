@@ -688,12 +688,12 @@ static fiftyoneDegreesCacheNode *cacheFetch(
 /**
  * \cond
  * Creates a new cache.The cache must be destroyed with the
- * fiftyoneDegreesFreeCache method.
+ * fiftyoneDegreesLegacyFreeCache method.
  * @param size maximum number of items that the cache should store
  * @returns a pointer to the cache created, or NULL if one was not created.
  * \endcond
  */
-fiftyoneDegreesCache *fiftyoneDegreesCacheCreate(
+fiftyoneDegreesCache *fiftyoneDegreesLegacyCacheCreate(
 	int32_t capacity,
 	void*(*malloc)(size_t __size),
 	void(*free)(void*),
@@ -742,7 +742,7 @@ fiftyoneDegreesCache *fiftyoneDegreesCacheCreate(
  * @param cache to be freed
  * \endcond
  */
-void fiftyoneDegreesCacheFree(fiftyoneDegreesCache *cache) {
+void fiftyoneDegreesLegacyCacheFree(fiftyoneDegreesCache *cache) {
 	int i;
 	
 	// Free any data items that are created and are marked to be freed by the

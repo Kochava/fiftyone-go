@@ -58,10 +58,10 @@ typedef struct fiftyoneDegrees_mutex_t {
     int initValue;
     pthread_mutex_t mutex;
 } fiftyoneDegreesMutex;
-void fiftyoneDegreesMutexCreate(const fiftyoneDegreesMutex *mutex);
-void fiftyoneDegreesMutexClose(const fiftyoneDegreesMutex *mutex);
-void fiftyoneDegreesMutexLock(const fiftyoneDegreesMutex *mutex);
-void fiftyoneDegreesMutexUnlock(const fiftyoneDegreesMutex *mutex);
+void fiftyoneDegreesLegacyMutexCreate(const fiftyoneDegreesMutex *mutex);
+void fiftyoneDegreesLegacyMutexClose(const fiftyoneDegreesMutex *mutex);
+void fiftyoneDegreesLegacyMutexLock(const fiftyoneDegreesMutex *mutex);
+void fiftyoneDegreesLegacyMutexUnlock(const fiftyoneDegreesMutex *mutex);
 int fiftyoneDegreesMutexValid(const fiftyoneDegreesMutex *mutex);
 #define FIFTYONEDEGREES_MUTEX fiftyoneDegreesMutex
 #endif
@@ -79,10 +79,10 @@ typedef struct fiftyoneDegrees_signal_t {
     fiftyoneDegreesMutex mutex;
     int destroyed; // Indicates if the signal has been destroyed
 } fiftyoneDegreesSignal;
-void fiftyoneDegreesSignalCreate(fiftyoneDegreesSignal *signal);
-void fiftyoneDegreesSignalClose(fiftyoneDegreesSignal *signal);
-void fiftyoneDegreesSignalSet(fiftyoneDegreesSignal *signal);
-void fiftyoneDegreesSignalWait(fiftyoneDegreesSignal *signal);
+void fiftyoneDegreesLegacySignalCreate(fiftyoneDegreesSignal *signal);
+void fiftyoneDegreesLegacySignalClose(fiftyoneDegreesSignal *signal);
+void fiftyoneDegreesLegacySignalSet(fiftyoneDegreesSignal *signal);
+void fiftyoneDegreesLegacySignalWait(fiftyoneDegreesSignal *signal);
 int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #define FIFTYONEDEGREES_SIGNAL fiftyoneDegreesSignal
 #endif
@@ -103,7 +103,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_SIGNAL_CREATE(s) s = (FIFTYONEDEGREES_SIGNAL)CreateEvent(NULL, FALSE, TRUE, NULL)
 #else
-#define FIFTYONEDEGREES_SIGNAL_CREATE(s) fiftyoneDegreesSignalCreate((fiftyoneDegreesSignal*)&s)
+#define FIFTYONEDEGREES_SIGNAL_CREATE(s) fiftyoneDegreesLegacySignalCreate((fiftyoneDegreesSignal*)&s)
 #endif
 
 /**
@@ -112,7 +112,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_SIGNAL_CLOSE(s) if (s != NULL) { CloseHandle(s); }
 #else
-#define FIFTYONEDEGREES_SIGNAL_CLOSE(s) fiftyoneDegreesSignalClose((fiftyoneDegreesSignal*)&s)
+#define FIFTYONEDEGREES_SIGNAL_CLOSE(s) fiftyoneDegreesLegacySignalClose((fiftyoneDegreesSignal*)&s)
 #endif
 
 /**
@@ -121,7 +121,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_SIGNAL_SET(s) SetEvent(s)
 #else
-#define FIFTYONEDEGREES_SIGNAL_SET(s) fiftyoneDegreesSignalSet((fiftyoneDegreesSignal*)s)
+#define FIFTYONEDEGREES_SIGNAL_SET(s) fiftyoneDegreesLegacySignalSet((fiftyoneDegreesSignal*)s)
 #endif
 
 /**
@@ -130,7 +130,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_SIGNAL_WAIT(s) WaitForSingleObject(*s, FIFTYONEDEGREES_SIGNAL_TIMEOUT_MS)
 #else
-#define FIFTYONEDEGREES_SIGNAL_WAIT(s) fiftyoneDegreesSignalWait((fiftyoneDegreesSignal*)s)
+#define FIFTYONEDEGREES_SIGNAL_WAIT(s) fiftyoneDegreesLegacySignalWait((fiftyoneDegreesSignal*)s)
 #endif
 
 /**
@@ -148,7 +148,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_MUTEX_CREATE(m) m = (FIFTYONEDEGREES_MUTEX)CreateMutex(NULL,FALSE,NULL)
 #else
-#define FIFTYONEDEGREES_MUTEX_CREATE(m) fiftyoneDegreesMutexCreate(&m)
+#define FIFTYONEDEGREES_MUTEX_CREATE(m) fiftyoneDegreesLegacyMutexCreate(&m)
 #endif
 
 /**
@@ -157,7 +157,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_MUTEX_CLOSE(m) if (m != NULL) { CloseHandle(m); }
 #else
-#define FIFTYONEDEGREES_MUTEX_CLOSE(m) fiftyoneDegreesMutexClose(&m)
+#define FIFTYONEDEGREES_MUTEX_CLOSE(m) fiftyoneDegreesLegacyMutexClose(&m)
 #endif
 
 /**
@@ -166,7 +166,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_MUTEX_LOCK(m) WaitForSingleObject(*m, INFINITE)
 #else
-#define FIFTYONEDEGREES_MUTEX_LOCK(m) fiftyoneDegreesMutexLock(m)
+#define FIFTYONEDEGREES_MUTEX_LOCK(m) fiftyoneDegreesLegacyMutexLock(m)
 #endif
 
 /**
@@ -175,7 +175,7 @@ int fiftyoneDegreesSignalValid(fiftyoneDegreesSignal *signal);
 #ifdef _MSC_VER
 #define FIFTYONEDEGREES_MUTEX_UNLOCK(m) ReleaseMutex(*m)
 #else
-#define FIFTYONEDEGREES_MUTEX_UNLOCK(m) fiftyoneDegreesMutexUnlock(m)
+#define FIFTYONEDEGREES_MUTEX_UNLOCK(m) fiftyoneDegreesLegacyMutexUnlock(m)
 #endif
 
 /**

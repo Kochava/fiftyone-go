@@ -689,12 +689,12 @@ EXTERNAL fiftyoneDegreesDataSetInitStatus fiftyoneDegreesInitWithPropertyString(
  * cache and pool structs are freed prior to calling this method.
  * @param dataSet pointer to the data set being destroyed
  */
-EXTERNAL void fiftyoneDegreesDataSetFree(const fiftyoneDegreesDataSet *dataSet);
+EXTERNAL void fiftyoneDegreesLegacyDataSetFree(const fiftyoneDegreesDataSet *dataSet);
 
 /**
  * \ingroup FiftyOneDegreesFunctions
  * Creates a new User-Agent cache used to speed up duplicate detections.
- * The cache must be destroyed with the fiftyoneDegreesFreeCache method.
+ * The cache must be destroyed with the fiftyoneDegreesLegacyFreeCache method.
  * If the cache size is lower then 2 then no cache is created.
  * @param dataSet pointer to the data set
  * @param size maximum number of items that the cache should store
@@ -1110,7 +1110,7 @@ EXTERNAL fiftyoneDegreesProfilesStruct *fiftyoneDegreesFindProfilesInProfiles(
  * function.
  * @param profiles the profiles list to be freed.
  */
-EXTERNAL void fiftyoneDegreesFreeProfilesStruct(
+EXTERNAL void fiftyoneDegreesLegacyFreeProfilesStruct(
 	fiftyoneDegreesProfilesStruct *profiles);
 
 /**
@@ -1119,7 +1119,7 @@ EXTERNAL void fiftyoneDegreesFreeProfilesStruct(
  * @param __size the size of memory to allocate.
  * @returns void* pointer to allocated memory.
  */
-EXTERNAL void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesMalloc)(size_t __size);
+EXTERNAL void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesLegacyMalloc)(size_t __size);
 
 /**
  * \ingroup FiftyOneDegreesFunctions
@@ -1135,7 +1135,7 @@ EXTERNAL void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesCalloc)(size_t __nmemb
  * Free function, defaults to free.
  * @param __ptr the pointer to memory to be freed.
  */
-EXTERNAL void (FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesFree)(void *__ptr);
+EXTERNAL void (FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesLegacyFree)(void *__ptr);
 
 /**
 * \ingroup FiftyOneDegreesFunctions
@@ -1195,7 +1195,7 @@ EXTERNAL int32_t fiftyoneDegreesGetMaxPropertyValueLength(const fiftyoneDegreesD
 
 EXTERNAL fiftyoneDegreesWorkset* fiftyoneDegreesCreateWorkset(const fiftyoneDegreesDataSet *dataSet);
 
-EXTERNAL void fiftyoneDegreesFreeWorkset(const fiftyoneDegreesWorkset *ws);
+EXTERNAL void fiftyoneDegreesLegacyFreeWorkset(const fiftyoneDegreesWorkset *ws);
 
 EXTERNAL void fiftyoneDegreesDestroy(const fiftyoneDegreesDataSet *dataSet);
 

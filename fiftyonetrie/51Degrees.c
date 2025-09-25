@@ -53,9 +53,9 @@
 /**
  * Memory allocation and deallocation functions.
  */
-void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesMalloc)(size_t __size) = 
+void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesLegacyMalloc)(size_t __size) =
 	malloc;
-void (FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesFree)(void *__ptr) = free;
+void (FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesLegacyFree)(void *__ptr) = free;
 
 
 /**
@@ -305,7 +305,7 @@ static void freeCacheParams(const void *params) {
  * @param dataSet a pointer to the dataset to be freed.
  * \endcond
  */
-void fiftyoneDegreesDataSetFree(fiftyoneDegreesDataSet *dataSet) {
+void fiftyoneDegreesLegacyDataSetFree(fiftyoneDegreesDataSet *dataSet) {
 	unsigned int index;
 	if (dataSet->requiredPropertiesNames != NULL) {
 #ifdef FIFTYONEDEGREES_INDIRECT
@@ -315,23 +315,23 @@ void fiftyoneDegreesDataSetFree(fiftyoneDegreesDataSet *dataSet) {
 			index < (int)dataSet->requiredProperties.count;
 			index++) {
 			if (dataSet->requiredPropertiesNames[index] != NULL) {
-				fiftyoneDegreesFree(
+				fiftyoneDegreesLegacyFree(
 					(void*)dataSet->requiredPropertiesNames[index]);
 				dataSet->requiredPropertiesNames[index] = NULL;
 			}
 		}
 #endif
-		fiftyoneDegreesFree((void*)dataSet->requiredPropertiesNames);
+		fiftyoneDegreesLegacyFree((void*)dataSet->requiredPropertiesNames);
 		dataSet->requiredPropertiesNames = NULL;
 	}
 	if (dataSet->requiredProperties.firstElement != NULL) {
-		fiftyoneDegreesFree((void*)dataSet->requiredProperties.firstElement);
+		fiftyoneDegreesLegacyFree((void*)dataSet->requiredProperties.firstElement);
 		dataSet->requiredProperties.firstElement = NULL;
 	}
 	if (dataSet->prefixedUpperHttpHeaders != NULL) {
 		for (index = 0; index < dataSet->uniqueHttpHeaders.count; index++) {
 			if (dataSet->prefixedUpperHttpHeaders[index] != NULL) {
-				fiftyoneDegreesFree(
+				fiftyoneDegreesLegacyFree(
 					(void*)dataSet->prefixedUpperHttpHeaders[index]);
 				dataSet->prefixedUpperHttpHeaders[index] = NULL;
 			}
@@ -339,42 +339,42 @@ void fiftyoneDegreesDataSetFree(fiftyoneDegreesDataSet *dataSet) {
 		dataSet->prefixedUpperHttpHeaders = NULL;
 	}
 	if (dataSet->uniqueHttpHeaders.firstElement != NULL) {
-		fiftyoneDegreesFree((void*)dataSet->uniqueHttpHeaders.firstElement);
+		fiftyoneDegreesLegacyFree((void*)dataSet->uniqueHttpHeaders.firstElement);
 		dataSet->uniqueHttpHeaders.firstElement = NULL;
 	}
 	if (dataSet->fileName != NULL) {
-		fiftyoneDegreesFree((void*)dataSet->fileName);
+		fiftyoneDegreesLegacyFree((void*)dataSet->fileName);
 		dataSet->fileName = NULL;
 	}
 	if (dataSet->httpHeaders.firstElement != NULL &&
 		dataSet->httpHeaders.freeMemory) {
-		fiftyoneDegreesFree((void*)dataSet->httpHeaders.firstElement);
+		fiftyoneDegreesLegacyFree((void*)dataSet->httpHeaders.firstElement);
 		dataSet->httpHeaders.firstElement = NULL;
 	}
 	if (dataSet->components.firstElement != NULL &&
 		dataSet->components.freeMemory) {
-		fiftyoneDegreesFree((void*)dataSet->components.firstElement);
+		fiftyoneDegreesLegacyFree((void*)dataSet->components.firstElement);
 		dataSet->components.firstElement = NULL;
 	}
 	if (dataSet->allProperties.firstElement != NULL &&
 		dataSet->allProperties.freeMemory) {
-		fiftyoneDegreesFree((void*)dataSet->allProperties.firstElement);
+		fiftyoneDegreesLegacyFree((void*)dataSet->allProperties.firstElement);
 		dataSet->allProperties.firstElement = NULL;
 	}
 #ifdef FIFTYONEDEGREES_INDIRECT
 	// Free memory from all the caches.
 	freeCacheParams(dataSet->devices.cache->params);
-	fiftyoneDegreesCacheFree(dataSet->devices.cache);
+	fiftyoneDegreesLegacyCacheFree(dataSet->devices.cache);
 	freeCacheParams(dataSet->profiles.cache->params);
-	fiftyoneDegreesCacheFree(dataSet->profiles.cache);
+	fiftyoneDegreesLegacyCacheFree(dataSet->profiles.cache);
 	freeCacheParams(dataSet->strings.cache->params);
-	fiftyoneDegreesCacheFree(dataSet->strings.cache);
+	fiftyoneDegreesLegacyCacheFree(dataSet->strings.cache);
 	freeCacheParams(dataSet->nodes.cache->params);
-	fiftyoneDegreesCacheFree(dataSet->nodes.cache);
+	fiftyoneDegreesLegacyCacheFree(dataSet->nodes.cache);
 #else
 	// Free memory used to load the file into memory.
 	if (dataSet->memoryToFree != NULL) {
-		fiftyoneDegreesFree((void*)dataSet->memoryToFree);
+		fiftyoneDegreesLegacyFree((void*)dataSet->memoryToFree);
 		dataSet->memoryToFree = NULL;
 	}
 #endif
@@ -415,7 +415,7 @@ static fiftyoneDegreesDataSetInitStatus createFileHandle(
 static fiftyoneDegreesDataSetInitStatus setDataSetFileName(
 	fiftyoneDegreesDataSet *dataSet,
 	const char *fileName) {
-	dataSet->fileName = (const char*)fiftyoneDegreesMalloc(
+	dataSet->fileName = (const char*)fiftyoneDegreesLegacyMalloc(
 		SIZE_OF_FILE_NAME(fileName));
 	if (dataSet->fileName == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -604,7 +604,7 @@ static fiftyoneDegreesDataSetInitStatus initRequiredPropertyNames(
 
 	// Allocate sufficient memory to store the pointers to the property
 	// name strings.
-	dataSet->requiredPropertiesNames = (const char**)fiftyoneDegreesMalloc(
+	dataSet->requiredPropertiesNames = (const char**)fiftyoneDegreesLegacyMalloc(
 		dataSet->requiredProperties.count * sizeof(const char*));
 	if (dataSet->requiredPropertiesNames == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -620,7 +620,7 @@ static fiftyoneDegreesDataSetInitStatus initRequiredPropertyNames(
 		// needs to be allocated to copy the value to as it may be removed 
 		// from the cache in the future.
 		dataSet->requiredPropertiesNames[i] =
-			(const char*)fiftyoneDegreesMalloc(sizeof(char*) *
+			(const char*)fiftyoneDegreesLegacyMalloc(sizeof(char*) *
 				(strlen(propertyString) + 1));
 		strcpy(
 			(char*)dataSet->requiredPropertiesNames[i],
@@ -658,7 +658,7 @@ static fiftyoneDegreesDataSetInitStatus initSpecificProperties(
 	}
 
 	// Create enough memory for the required property indexes and the names.
-	dataSet->requiredProperties.firstElement = (int32_t*)fiftyoneDegreesMalloc(
+	dataSet->requiredProperties.firstElement = (int32_t*)fiftyoneDegreesLegacyMalloc(
 		dataSet->requiredProperties.count * sizeof(int32_t));
 	if (dataSet->requiredProperties.firstElement == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -699,7 +699,7 @@ static fiftyoneDegreesDataSetInitStatus initSpecificPropertiesFromArray(
 	}
 
 	// Create enough memory for the required property indexes and the names.
-	dataSet->requiredProperties.firstElement = (int32_t*)fiftyoneDegreesMalloc(
+	dataSet->requiredProperties.firstElement = (int32_t*)fiftyoneDegreesLegacyMalloc(
 		dataSet->requiredProperties.count * sizeof(int32_t));
 	if (dataSet->requiredProperties.firstElement == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -731,7 +731,7 @@ static fiftyoneDegreesDataSetInitStatus initAllProperties(
 	dataSet->requiredProperties.count = dataSet->allProperties.count;
 
 	// Create enough memory for the required property indexes and the names.
-	dataSet->requiredProperties.firstElement = (int32_t*)fiftyoneDegreesMalloc(
+	dataSet->requiredProperties.firstElement = (int32_t*)fiftyoneDegreesLegacyMalloc(
 		dataSet->requiredProperties.count * sizeof(int32_t));
 	if (dataSet->requiredProperties.firstElement == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -759,10 +759,10 @@ static fiftyoneDegreesDataSetInitStatus initUniqueHttpHeaders(
 		fiftyoneDegreesDataSet *dataSet) {
 	unsigned int headerIndex, uniqueHeaderIndex;
 	// Allocate more space than is necessary just in case.
-	dataSet->uniqueHttpHeaders.firstElement = (int32_t*)fiftyoneDegreesMalloc(
+	dataSet->uniqueHttpHeaders.firstElement = (int32_t*)fiftyoneDegreesLegacyMalloc(
 		dataSet->httpHeaders.count * sizeof(int32_t));
 	if (dataSet->uniqueHttpHeaders.firstElement == NULL) {
-		fiftyoneDegreesFree(dataSet->uniqueHttpHeaders.firstElement);
+		fiftyoneDegreesLegacyFree(dataSet->uniqueHttpHeaders.firstElement);
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
 	}
 	dataSet->uniqueHttpHeaders.freeMemory = TRUE;
@@ -1021,7 +1021,7 @@ static fiftyoneDegreesDataSetInitStatus readListToMemory(
 
 	// Allocate the memory for the elements.
 	bytesToRead = list->count * sizeOfElement;
-	list->firstElement = (byte*)fiftyoneDegreesMalloc(bytesToRead);
+	list->firstElement = (byte*)fiftyoneDegreesLegacyMalloc(bytesToRead);
 
 	// Check the memory was allocated correctly.
 	if (list->firstElement == NULL) {
@@ -1034,7 +1034,7 @@ static fiftyoneDegreesDataSetInitStatus readListToMemory(
 	// Read the data if the memory was allocated. If the read fails then
 	// free the memory allocated.
 	if (fread(list->firstElement, bytesToRead, 1, reader->file) != 1) {
-		fiftyoneDegreesFree(list->firstElement);
+		fiftyoneDegreesLegacyFree(list->firstElement);
 		return DATA_SET_INIT_STATUS_CORRUPT_DATA;
 	}
 
@@ -1218,10 +1218,10 @@ static fiftyoneDegreesCache* createCache(
 	params->offset = 0;
 
 	// Create the cache using the provided malloc and free methods.
-	return fiftyoneDegreesCacheCreate(
+	return fiftyoneDegreesLegacyCacheCreate(
 		size,
-		fiftyoneDegreesMalloc,
-		fiftyoneDegreesFree,
+		fiftyoneDegreesLegacyMalloc,
+		fiftyoneDegreesLegacyFree,
 		load,
 		params);
 }
@@ -1455,13 +1455,13 @@ static fiftyoneDegreesDataSetInitStatus initDataSet(
 	// Read the data set from the source.
 	status = readDataSet(reader, dataSet);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesDataSetFree(dataSet);
+		fiftyoneDegreesLegacyDataSetFree(dataSet);
 		return status;
 	}
 
 	status = initUniqueHttpHeaders(dataSet);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesDataSetFree(dataSet);
+		fiftyoneDegreesLegacyDataSetFree(dataSet);
 		return status;
 	}
 
@@ -1532,12 +1532,12 @@ static fiftyoneDegreesDataSetInitStatus initFromFile(
 #else
 	// Allocate the memory and read in the data file.
 	dataSet->memoryToFree = reader.current = 
-		(byte*)fiftyoneDegreesMalloc(reader.length);
+		(byte*)fiftyoneDegreesLegacyMalloc(reader.length);
 	if (dataSet->memoryToFree == NULL)  {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
 	}
 	if (fread(reader.current, reader.length, 1, inputFilePtr) != 1) {
-		fiftyoneDegreesFree((void*)dataSet->memoryToFree);
+		fiftyoneDegreesLegacyFree((void*)dataSet->memoryToFree);
 		return DATA_SET_INIT_STATUS_CORRUPT_DATA;
 	}
 
@@ -1548,7 +1548,7 @@ static fiftyoneDegreesDataSetInitStatus initFromFile(
 	// Initialises the data set using the memory just allocated.
 	status = initDataSet(dataSet, &reader);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesFree((void*)dataSet->memoryToFree);
+		fiftyoneDegreesLegacyFree((void*)dataSet->memoryToFree);
 		return status;
 	}
 #endif
@@ -1575,10 +1575,10 @@ static fiftyoneDegreesDataSetInitStatus initProvider(
 	fiftyoneDegreesActiveDataSet *active;
 
 	// Create a new active wrapper for the provider.
-	active = (fiftyoneDegreesActiveDataSet*)fiftyoneDegreesMalloc(
+	active = (fiftyoneDegreesActiveDataSet*)fiftyoneDegreesLegacyMalloc(
 		sizeof(fiftyoneDegreesActiveDataSet));
 	if (active == NULL) {
-		fiftyoneDegreesDataSetFree(dataSet);
+		fiftyoneDegreesLegacyDataSetFree(dataSet);
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
 	}
 
@@ -1671,7 +1671,7 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesInitProviderWithPropertyString(
 		const char* properties) {
 	fiftyoneDegreesDataSetInitStatus status;
 	fiftyoneDegreesDataSet *dataSet =
-		(fiftyoneDegreesDataSet*)fiftyoneDegreesMalloc(
+		(fiftyoneDegreesDataSet*)fiftyoneDegreesLegacyMalloc(
 			sizeof(fiftyoneDegreesDataSet));
 	if (dataSet == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -1681,7 +1681,7 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesInitProviderWithPropertyString(
 		dataSet,
 		properties);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesFree(dataSet);
+		fiftyoneDegreesLegacyFree(dataSet);
 		return status;
 	}
 #ifndef FIFTYONEDEGREES_NO_THREADING
@@ -1710,7 +1710,7 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesInitProviderWithPropertyArray(
 		int propertyCount) {
 	fiftyoneDegreesDataSetInitStatus status;
 	fiftyoneDegreesDataSet *dataSet =
-		(fiftyoneDegreesDataSet*)fiftyoneDegreesMalloc(
+		(fiftyoneDegreesDataSet*)fiftyoneDegreesLegacyMalloc(
 			sizeof(fiftyoneDegreesDataSet));
 	if (dataSet == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -1721,7 +1721,7 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesInitProviderWithPropertyArray(
 		properties,
 		propertyCount);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesFree(dataSet);
+		fiftyoneDegreesLegacyFree(dataSet);
 		return status;
 	}
 #ifndef FIFTYONEDEGREES_NO_THREADING
@@ -1739,10 +1739,10 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesInitProviderWithPropertyArray(
  */
 void fiftyoneDegreesActiveDataSetFree(fiftyoneDegreesActiveDataSet *active) {
 	if (active->dataSet != NULL) {
-		fiftyoneDegreesDataSetFree(active->dataSet);
-		fiftyoneDegreesFree(active->dataSet);
+		fiftyoneDegreesLegacyDataSetFree(active->dataSet);
+		fiftyoneDegreesLegacyFree(active->dataSet);
 	}
-	fiftyoneDegreesFree(active);
+	fiftyoneDegreesLegacyFree(active);
 }
 
 /**
@@ -1770,7 +1770,7 @@ static fiftyoneDegreesDataSetInitStatus reloadCommon(
 		oldActive->dataSet->requiredPropertiesNames,
 		oldActive->dataSet->requiredProperties.count);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesDataSetFree(newDataSet);
+		fiftyoneDegreesLegacyDataSetFree(newDataSet);
 		return status;
 	}
 
@@ -1784,7 +1784,7 @@ static fiftyoneDegreesDataSetInitStatus reloadCommon(
 	// Initialise the new provider.
 	status = initProvider(provider, newDataSet);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesDataSetFree(newDataSet);
+		fiftyoneDegreesLegacyDataSetFree(newDataSet);
 	}
 
 	// If the old dataset is ready to be freed then do so.
@@ -1827,7 +1827,7 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesProviderReloadFromMemory(
 	memoryReader reader;
 
 	// Allocate memory for a new data set.
-	newDataSet = (fiftyoneDegreesDataSet*)fiftyoneDegreesMalloc(
+	newDataSet = (fiftyoneDegreesDataSet*)fiftyoneDegreesLegacyMalloc(
 		sizeof(fiftyoneDegreesDataSet));
 	if (newDataSet == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -1849,14 +1849,14 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesProviderReloadFromMemory(
 	reader.lastByte = reader.current + length;
 	status = initDataSet(newDataSet, &reader);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesFree(newDataSet);
+		fiftyoneDegreesLegacyFree(newDataSet);
 		return status;
 	}
 	
 	// Reload common components.
 	status = reloadCommon(provider, newDataSet);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesDataSetFree(newDataSet);
+		fiftyoneDegreesLegacyDataSetFree(newDataSet);
 	}
 
 	return status;
@@ -1880,7 +1880,7 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesProviderReloadFromFile(
 	fiftyoneDegreesDataSet *newDataSet = NULL;
 
 	// Allocate memory for a new data set.
-	newDataSet = (fiftyoneDegreesDataSet*)fiftyoneDegreesMalloc(
+	newDataSet = (fiftyoneDegreesDataSet*)fiftyoneDegreesLegacyMalloc(
 		sizeof(fiftyoneDegreesDataSet));
 	if (newDataSet == NULL) {
 		return DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY;
@@ -1889,14 +1889,14 @@ fiftyoneDegreesDataSetInitStatus fiftyoneDegreesProviderReloadFromFile(
 	// Initialise the new data set with the properties of the current one.
 	status = initFromFile(newDataSet, provider->active->dataSet->fileName);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesFree(newDataSet);
+		fiftyoneDegreesLegacyFree(newDataSet);
 		return status;
 	}
 
 	// Reload common components.
 	status = reloadCommon(provider, newDataSet);
 	if (status != DATA_SET_INIT_STATUS_SUCCESS) {
-		fiftyoneDegreesDataSetFree(newDataSet);
+		fiftyoneDegreesLegacyDataSetFree(newDataSet);
 	}
 
 	return status;
@@ -2841,7 +2841,7 @@ void fiftyoneDegreesSetDeviceOffsetFromArrayWithTolerances(
 	offset->length = strlen(userAgent);
 	offset->difference = 0;
 #ifdef _DEBUG
-	offset->userAgent = (char*)fiftyoneDegreesMalloc(
+	offset->userAgent = (char*)fiftyoneDegreesLegacyMalloc(
 		offset->length + 1 * sizeof(char));
 #else
 	offset->userAgent = NULL;
@@ -2917,9 +2917,9 @@ void fiftyoneDegreesSetDeviceOffset(
 fiftyoneDegreesDeviceOffsets* fiftyoneDegreesCreateDeviceOffsets(
 		fiftyoneDegreesDataSet *dataSet) {
 	fiftyoneDegreesDeviceOffsets* offsets = (fiftyoneDegreesDeviceOffsets*)
-		fiftyoneDegreesMalloc(sizeof(fiftyoneDegreesDeviceOffsets));
+		fiftyoneDegreesLegacyMalloc(sizeof(fiftyoneDegreesDeviceOffsets));
 	offsets->size = 0;
-	offsets->firstOffset = (fiftyoneDegreesDeviceOffset*)fiftyoneDegreesMalloc(
+	offsets->firstOffset = (fiftyoneDegreesDeviceOffset*)fiftyoneDegreesLegacyMalloc(
 		dataSet->uniqueHttpHeaders.count * sizeof(fiftyoneDegreesDeviceOffset));
 	offsets->active = NULL;
 	return offsets;
@@ -2938,7 +2938,7 @@ void fiftyoneDegreesResetDeviceOffsets(fiftyoneDegreesDeviceOffsets* offsets) {
 		if (offsets->firstOffset != NULL) {
 			for (offsetIndex = 0; offsetIndex < offsets->size; offsetIndex++) {
 				if ((offsets->firstOffset + offsetIndex)->userAgent != NULL) {
-					fiftyoneDegreesFree(
+					fiftyoneDegreesLegacyFree(
 						(void*)(offsets->firstOffset +
 							offsetIndex)->userAgent);
 				}
@@ -2954,19 +2954,19 @@ void fiftyoneDegreesResetDeviceOffsets(fiftyoneDegreesDeviceOffsets* offsets) {
  * @param offsets to free.
  * \endcond
  */
-void fiftyoneDegreesFreeDeviceOffsets(fiftyoneDegreesDeviceOffsets* offsets) {
+void fiftyoneDegreesLegacyFreeDeviceOffsets(fiftyoneDegreesDeviceOffsets* offsets) {
 	int offsetIndex;
 	if (offsets != NULL) {
 		if (offsets->firstOffset != NULL) {
 			for (offsetIndex = 0; offsetIndex < offsets->size; offsetIndex++) {
 				if ((offsets->firstOffset + offsetIndex)->userAgent != NULL) {
-					fiftyoneDegreesFree((void*)(offsets->firstOffset +
+					fiftyoneDegreesLegacyFree((void*)(offsets->firstOffset +
 						offsetIndex)->userAgent);
 				}
 			}
-			fiftyoneDegreesFree(offsets->firstOffset);
+			fiftyoneDegreesLegacyFree(offsets->firstOffset);
 		}
-		fiftyoneDegreesFree(offsets);
+		fiftyoneDegreesLegacyFree(offsets);
 	}
 }
 
@@ -3048,7 +3048,7 @@ void fiftyoneDegreesProviderFreeDeviceOffsets(
 		fiftyoneDegreesActiveDataSetFree(offsets->active);
 	}
 #endif
-	fiftyoneDegreesFreeDeviceOffsets(offsets);
+	fiftyoneDegreesLegacyFreeDeviceOffsets(offsets);
 }
 
 /**
@@ -3414,7 +3414,7 @@ static void initPrefixedUpperHttpHeaderNames(fiftyoneDegreesDataSet *dataSet) {
 	unsigned int httpHeaderIndex;
 	size_t length;
 	char *prefixedUpperHttpHeader, *httpHeaderName;
-	dataSet->prefixedUpperHttpHeaders = (const char**)fiftyoneDegreesMalloc(
+	dataSet->prefixedUpperHttpHeaders = (const char**)fiftyoneDegreesLegacyMalloc(
 		dataSet->uniqueHttpHeaders.count * sizeof(char*));
 	if (dataSet->prefixedUpperHttpHeaders != NULL) {
 		for (httpHeaderIndex = 0; 
@@ -3424,7 +3424,7 @@ static void initPrefixedUpperHttpHeaderNames(fiftyoneDegreesDataSet *dataSet) {
 				dataSet, 
 				dataSet->uniqueHttpHeaders.firstElement[httpHeaderIndex]);
 			length = strlen(httpHeaderName);
-			prefixedUpperHttpHeader = (char*)fiftyoneDegreesMalloc(
+			prefixedUpperHttpHeader = (char*)fiftyoneDegreesLegacyMalloc(
 				(length + sizeof(FIFTYONEDEGREES_HTTP_PREFIX_UPPER)) *
 				sizeof(char));
 			if (prefixedUpperHttpHeader != NULL) {

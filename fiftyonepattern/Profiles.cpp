@@ -33,7 +33,7 @@ Profiles::Profiles() {}
  * Frees the memory used by the profiles structure.
  */
 Profiles::~Profiles() {
-	fiftyoneDegreesFreeProfilesStruct(profiles);
+	fiftyoneDegreesLegacyFreeProfilesStruct(profiles);
 }
 
 /**
