@@ -38,7 +38,7 @@
  * Initialises the mutex passed to the method.
  * @param mutex to be initialised.
  */
-void fiftyoneDegreesMutexCreate(const fiftyoneDegreesMutex *mutex) {
+void fiftyoneDegreesLegacyMutexCreate(const fiftyoneDegreesMutex *mutex) {
 	((fiftyoneDegreesMutex*)mutex)->initValue = pthread_mutex_init((pthread_mutex_t*)&mutex->mutex, NULL);
 }
 
@@ -46,7 +46,7 @@ void fiftyoneDegreesMutexCreate(const fiftyoneDegreesMutex *mutex) {
  * Closes the mutex passed to the method.
  * @param mutex to be closed.
  */
-void fiftyoneDegreesMutexClose(const fiftyoneDegreesMutex *mutex) {
+void fiftyoneDegreesLegacyMutexClose(const fiftyoneDegreesMutex *mutex) {
 	pthread_mutex_destroy((pthread_mutex_t*)&mutex->mutex);
 }
 
@@ -54,7 +54,7 @@ void fiftyoneDegreesMutexClose(const fiftyoneDegreesMutex *mutex) {
  * Locks the mutex passed to the method.
  * @param mutex to be locked.
  */
-void fiftyoneDegreesMutexLock(const fiftyoneDegreesMutex *mutex) {
+void fiftyoneDegreesLegacyMutexLock(const fiftyoneDegreesMutex *mutex) {
 	pthread_mutex_lock((pthread_mutex_t*)&mutex->mutex);
 }
 
@@ -62,7 +62,7 @@ void fiftyoneDegreesMutexLock(const fiftyoneDegreesMutex *mutex) {
  * Unlocks the mutex passed to the method.
  * @param mutex to be unlocked.
  */
-void fiftyoneDegreesMutexUnlock(const fiftyoneDegreesMutex *mutex) {
+void fiftyoneDegreesLegacyMutexUnlock(const fiftyoneDegreesMutex *mutex) {
 	pthread_mutex_unlock((pthread_mutex_t*)&mutex->mutex);
 }
 
@@ -83,11 +83,11 @@ int fiftyoneDegreesMutexValid(const fiftyoneDegreesMutex *mutex) {
  * the condition is also released.
  * @param signal to be initialised
  */
-void fiftyoneDegreesSignalCreate(fiftyoneDegreesSignal *signal) {
+void fiftyoneDegreesLegacySignalCreate(fiftyoneDegreesSignal *signal) {
 	signal->initValue = pthread_cond_init((pthread_cond_t*)&signal->cond, 0);
 	if (signal->initValue == 0) {
 		signal->destroyed = 0;
-		fiftyoneDegreesMutexCreate(&signal->mutex);
+		fiftyoneDegreesLegacyMutexCreate(&signal->mutex);
 		if (signal->mutex.initValue != 0) {
 			pthread_cond_destroy((pthread_cond_t*)&signal->cond);
 			signal->destroyed = 1;
@@ -105,13 +105,13 @@ void fiftyoneDegreesSignalCreate(fiftyoneDegreesSignal *signal) {
  * field before trying to get the lock.
  * @param signal to be closed.
  */
-void fiftyoneDegreesSignalClose(fiftyoneDegreesSignal *signal) {
+void fiftyoneDegreesLegacySignalClose(fiftyoneDegreesSignal *signal) {
 	if (signal->destroyed == 0) {
 		pthread_mutex_lock((pthread_mutex_t *__restrict)&signal->mutex.mutex);
 		pthread_cond_destroy((pthread_cond_t*)&signal->cond);
 		signal->destroyed = 1;
 		pthread_mutex_unlock((pthread_mutex_t *__restrict)&signal->mutex.mutex);
-		fiftyoneDegreesMutexClose(&signal->mutex);
+		fiftyoneDegreesLegacyMutexClose(&signal->mutex);
 	}
 }
 
@@ -122,7 +122,7 @@ void fiftyoneDegreesSignalClose(fiftyoneDegreesSignal *signal) {
  * continue even if multi threads are waiting.
  * @param signal to be set.
  */
-void fiftyoneDegreesSignalSet(fiftyoneDegreesSignal *signal) {
+void fiftyoneDegreesLegacySignalSet(fiftyoneDegreesSignal *signal) {
 	if (signal->destroyed == 0) {
 		pthread_cond_signal((pthread_cond_t *__restrict)&signal->cond);
 	}
@@ -134,7 +134,7 @@ void fiftyoneDegreesSignalSet(fiftyoneDegreesSignal *signal) {
  * only one thread can be waiting on the signal at any one time.
  * @param signal pointer to the signal used to wait on.
  */
-void fiftyoneDegreesSignalWait(fiftyoneDegreesSignal *signal) {
+void fiftyoneDegreesLegacySignalWait(fiftyoneDegreesSignal *signal) {
 	struct timespec timeout;
 	if (signal->destroyed == 0) {
 		if (pthread_mutex_lock((pthread_mutex_t *__restrict)&signal->mutex.mutex) == 0) {

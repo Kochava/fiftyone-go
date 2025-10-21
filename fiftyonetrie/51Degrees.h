@@ -415,7 +415,7 @@ EXTERNAL void fiftyoneDegreesResetDeviceOffsets(
  * Frees the memory used by the offsets.
  * @param offsets to free.
  */
-EXTERNAL void fiftyoneDegreesFreeDeviceOffsets(
+EXTERNAL void fiftyoneDegreesLegacyFreeDeviceOffsets(
 	fiftyoneDegreesDeviceOffsets* offsets);
 
 /**
@@ -514,7 +514,7 @@ EXTERNAL int fiftyoneDegreesGetRequiredPropertyIndex(
  * Frees the memory used by the dataset.
  * @param dataSet a pointer to the dataset to be freed.
  */
-EXTERNAL void fiftyoneDegreesDataSetFree(fiftyoneDegreesDataSet *dataSet);
+EXTERNAL void fiftyoneDegreesLegacyDataSetFree(fiftyoneDegreesDataSet *dataSet);
 
 /**
  * \ingroup FiftyOneDegreesFunctions
@@ -705,14 +705,14 @@ EXTERNAL int fiftyoneDegreesGetMatchedUserAgentLength(
  * @param __size to allocate.
  * @returns pointer to allocated memory, or NULL if allocation failed.
  */
-EXTERNAL void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesMalloc)(size_t __size);
+EXTERNAL void *(FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesLegacyMalloc)(size_t __size);
 
 /**
  * \ingroup FiftyOneDegreesFunctions
  * Pointer to free function. Defaults to free, but can be set externally.
  * @param __ptr pointer to the memory to free
  */
-EXTERNAL void (FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesFree)(void *__ptr);
+EXTERNAL void (FIFTYONEDEGREES_CALL_CONV *fiftyoneDegreesLegacyFree)(void *__ptr);
 
 /**
  * \ingroup FiftyOneDegreesFunctions

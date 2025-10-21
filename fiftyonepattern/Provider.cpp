@@ -807,7 +807,7 @@ int64_t Provider::initWithValidate(
 
 	// Set the malloc function to use the function that increments _actualSize
 	// by the amount being allocated.
-	fiftyoneDegreesMalloc = validateMalloc;
+	fiftyoneDegreesLegacyMalloc = validateMalloc;
 
 	// Use the standard init function to initialise the provider. This is the
 	// same function used by the standard constructor, however every memory
@@ -816,7 +816,7 @@ int64_t Provider::initWithValidate(
 
 	// Revert the malloc function so that future calls do not use the
 	// validateMalloc function.
-	fiftyoneDegreesMalloc = malloc;
+	fiftyoneDegreesLegacyMalloc = malloc;
 
 	// Return the difference between the predicted and actual sizes. A positive
 	// number is an overestimate, and a negative number is an underestimate.

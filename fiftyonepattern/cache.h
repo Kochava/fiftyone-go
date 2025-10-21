@@ -14,7 +14,7 @@
  * If a copy of the MPL was not distributed with this file, You can obtain
  * one at http://mozilla.org/MPL/2.0/.
  * 
- * This Source Code Form is “Incompatible With Secondary Licenses”, as
+ * This Source Code Form is ï¿½Incompatible With Secondary Licensesï¿½, as
  * defined by the Mozilla Public License, v. 2.0.
  ********************************************************************** */
 
@@ -93,14 +93,14 @@ struct fiftyoneDegrees_cache_t {
 /**
  * \ingroup FiftyOneDgreesFunctions
  * Creates a new cache.The cache must be destroyed with the
- * fiftyoneDegreesFreeCache method.
+ * fiftyoneDegreesLegacyFreeCache method.
  * @param size maximum number of items that the cache should store
  * @param malloc pointer to method used to allocate memory for cache entries
  * @param free pointer to method used to free cache entries
  * @param load pointer to method used to load an entry into the cache
  * @returns a pointer to the cache created, or NULL if one was not created.
  */
-EXTERNAL fiftyoneDegreesCache *fiftyoneDegreesCacheCreate(
+EXTERNAL fiftyoneDegreesCache *fiftyoneDegreesLegacyCacheCreate(
 	int32_t size,
 	void*(*malloc)(size_t __size),
 	void(*free)(void*),
@@ -112,7 +112,7 @@ EXTERNAL fiftyoneDegreesCache *fiftyoneDegreesCacheCreate(
  * Frees the cache structure, all allocated nodes and their data.
  * @param cache to be freed
  */
-EXTERNAL void fiftyoneDegreesCacheFree(fiftyoneDegreesCache *cache);
+EXTERNAL void fiftyoneDegreesLegacyCacheFree(fiftyoneDegreesCache *cache);
 
 /**
  * \ingroup FiftyOneDegreesFunctions
